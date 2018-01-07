@@ -1,4 +1,4 @@
-# No Emit Plugin
+# No Emit WebPack Plugin
 
 Stop an asset from being emitted by the webpack compiler.
 
@@ -51,4 +51,4 @@ new NoEmitPlugin(options: string | array)
 ```
 
 * If a `string` is supplied only one asset bundle will be removed.
-* The array must be composed of elements with type `string` that match the names of the asset bundles to be removed.
+* The array must be composed of elements with type `string` that will be matched with asset bundle names, and removed.

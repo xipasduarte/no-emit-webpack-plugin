@@ -19,10 +19,10 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const NoEmitPlugin = require("no-emit-webpack-plugin");
 
 module.exports = {
-  entry: './src/style.scss',
+  entry: "./src/style.scss",
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, './')
+    filename: "[name].js",
+    path: path.resolve(__dirname, "./")
   },
   module: {
     rules: [

@@ -27,9 +27,9 @@
     "node": ">= 6.0"
   },
   "peerDependencies": {
-    "webpack": "^3.1.0"
+    "webpack": "4.8.3"
   },
   "devDependencies": {
-    "webpack": "^4.8.3"
+    "webpack": "4.8.3"
   }
 }

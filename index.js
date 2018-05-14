@@ -23,10 +23,10 @@ class NoEmitPlugin {
   }
 
   apply(compiler) {
-    compiler.plugin('emit', (compilation, callback) => {
+    compiler.hooks.emit.tap('NoEmitPlugin', (compilation, callback) => {
       if (!this.options) {
         Object.keys(compilation.entrypoints).forEach((asset) => {
-          delete compilation.assets[asset + '.js'];
+          delete compilation.assets[`${asset}.js`];
         });
       } else {
         this.options.forEach((asset) => {

@@ -23,7 +23,7 @@ class NoEmitPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tap('NoEmitPlugin', (compilation, callback) => {
+    compiler.hooks.emit.tapAsync('NoEmitPlugin', (compilation, callback) => {
       if (!this.options) {
         Object.keys(compilation.entrypoints).forEach((asset) => {
           delete compilation.assets[`${asset}.js`];

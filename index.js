@@ -25,7 +25,10 @@ class NoEmitPlugin {
   apply(compiler) {
     compiler.hooks.emit.tapAsync('NoEmitPlugin', (compilation, callback) => {
       if (!this.options) {
-        Object.keys(compilation.entrypoints).forEach((asset) => {
+        const keys = compilation.entrypoints instanceof Map ?
+          Array.from(compilation.entrypoints.keys()) :
+          Object.keys(compilation.entrypoints);
+        keys.forEach((asset) => {
           delete compilation.assets[`${asset}.js`];
         });
       } else {

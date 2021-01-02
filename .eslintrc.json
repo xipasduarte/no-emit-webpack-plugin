@@ -1,6 +1,7 @@
 {
     "env": {
         "browser": true,
+        "node": true,
         "commonjs": true,
         "es2021": true
     },
@@ -10,11 +11,6 @@
     },
     "rules": {
         "accessor-pairs": "error",
-        "array-bracket-newline": "error",
-        "array-bracket-spacing": [
-            "error",
-            "always"
-        ],
         "array-callback-return": "error",
         "array-element-newline": "error",
         "arrow-body-style": "error",
@@ -42,7 +38,6 @@
             "always"
         ],
         "class-methods-use-this": "off",
-        "comma-dangle": "error",
         "comma-spacing": [
             "error",
             {
@@ -81,7 +76,6 @@
         "handle-callback-err": "error",
         "id-blacklist": "error",
         "id-denylist": "error",
-        "id-length": "error",
         "id-match": "error",
         "implicit-arrow-linebreak": "error",
         "indent": "off",
@@ -116,12 +110,9 @@
         "max-params": "error",
         "max-statements": "error",
         "max-statements-per-line": "error",
-        "multiline-comment-style": "error",
-        "multiline-ternary": "error",
         "new-cap": "error",
         "new-parens": "error",
         "newline-after-var": "off",
-        "newline-before-return": "error",
         "newline-per-chained-call": "error",
         "no-alert": "error",
         "no-array-constructor": "error",
@@ -157,7 +148,6 @@
         "no-lonely-if": "error",
         "no-loop-func": "error",
         "no-loss-of-precision": "error",
-        "no-magic-numbers": "error",
         "no-mixed-operators": "error",
         "no-mixed-requires": "error",
         "no-multi-assign": "error",
@@ -223,7 +213,6 @@
         "no-whitespace-before-property": "error",
         "nonblock-statement-body-position": "error",
         "object-curly-newline": "error",
-        "object-curly-spacing": "error",
         "object-property-newline": "error",
         "object-shorthand": "error",
         "one-var": "off",
@@ -266,10 +255,6 @@
             "last"
         ],
         "sort-imports": "error",
-        "sort-keys": [
-            "error",
-            "desc"
-        ],
         "sort-vars": "error",
         "space-before-blocks": "error",
         "space-before-function-paren": "off",

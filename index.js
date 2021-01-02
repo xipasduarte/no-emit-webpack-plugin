@@ -7,7 +7,7 @@ const schema = {
 
 class NoEmitPlugin {
   constructor(options) {
-    if ( options === undefined ) {
+    if (options === undefined) {
       options = false;
     } else if (this.isString(options)) {
       options = [ options ];

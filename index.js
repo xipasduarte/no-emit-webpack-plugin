@@ -10,6 +10,13 @@ const schema = {
   additionalProperties: false
 };
 
+const gatherAllAssets = (entrypoints) => {
+  const keys = entrypoints instanceof Map ?
+    Array.from(entrypoints.keys()) :
+    Object.keys(entrypoints);
+  return keys.map((asset) => `${asset}.js`);
+};
+
 class NoEmitPlugin {
   constructor(options) {
     if (options === undefined) {
@@ -32,28 +39,25 @@ class NoEmitPlugin {
 
   apply(compiler) {
     compiler.hooks.emit.tapAsync('NoEmitPlugin', (compilation, callback) => {
-      if (!this.options) {
-        const keys = compilation.entrypoints instanceof Map ?
-          Array.from(compilation.entrypoints.keys()) :
-          Object.keys(compilation.entrypoints);
-        keys.forEach((asset) => {
-          delete compilation.assets[`${asset}.js`];
-        });
-      } else {
-        this.options.forEach((asset) => {
-          if (!this.isString(asset)) {
-            compilation.errors.push(Error(`All bundle names in the options must be strings. ${JSON.stringify(asset)} is not a string.`));
-            return;
-          }
 
-          if (compilation.assets[asset] === undefined) {
-            compilation.warnings.push(`Output asset does not exist: ${asset}`);
-            return;
-          }
-
-          delete compilation.assets[asset];
-        });
+      // Remove all assets when none are specified.
+      if (this.options === false) {
+        this.options = gatherAllAssets(compilation.entrypoints);
       }
+
+      this.options.forEach((asset) => {
+        if (!this.isString(asset)) {
+          compilation.errors.push(Error(`All bundle names in the options must be strings. ${JSON.stringify(asset)} is not a string.`));
+          return;
+        }
+
+        if (compilation.assets[asset] === undefined) {
+          compilation.warnings.push(`Output asset does not exist: ${asset}`);
+          return;
+        }
+
+        delete compilation.assets[asset];
+      });
 
       callback();
     });

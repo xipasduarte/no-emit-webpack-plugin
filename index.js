@@ -41,12 +41,17 @@ class NoEmitPlugin {
         });
       } else {
         this.options.forEach((asset) => {
-          // TODO: Display message when the asset name is not present.
-          if (this.isString(asset)) {
-            delete compilation.assets[asset];
-          } else {
-            console.log('All bundle names in the options must be strings. %s is not a string.', asset);
+          if (!this.isString(asset)) {
+            compilation.errors.push(Error(`All bundle names in the options must be strings. ${JSON.stringify(asset)} is not a string.`));
+            return;
           }
+
+          if (compilation.assets[asset] === undefined) {
+            compilation.warnings.push(`Output asset does not exist: ${asset}`);
+            return;
+          }
+
+          delete compilation.assets[asset];
         });
       }
 

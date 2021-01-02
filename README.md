@@ -8,9 +8,20 @@ Stop an asset from being emitted by the webpack compiler.
 npm install --save-dev no-emit-webpack-plugin
 ```
 
+## Options
+
+> :warning: By default, if you don't supply any options the bundles for all entry points will be removed.
+
+```js
+new NoEmitPlugin(options: string | array)
+```
+
+* If a `string` is supplied only one asset bundle will be removed.
+* The array must be composed of elements with type `string` that will be matched with asset bundle names, and removed.
+
 ## Usage
 
-This plugin is most useful when you are bundling assets that start from file types other than JavaScript, like styles for instance. With it you can remove the resulting file difined in the `output` option of your `webpack.config.js`.
+This plugin is most useful when you are bundling assets that start from file types other than JavaScript, like styles for instance. With it you can remove the resulting file defined in the `output` option of your `webpack.config.js`.
 
 Below is an example on how to remove the `style.js` file from the emitted assets. We'll use the [Extract Text Plugin](https://webpack.js.org/plugins/extract-text-webpack-plugin/) to generate the CSS asset.
 
@@ -41,14 +52,3 @@ module.exports = {
   ]
 }
 ```
-
-## Options
-
-> :warning: By default, if you don't supply any options the bundles for all entrypoints will be removed.
-
-```js
-new NoEmitPlugin(options: string | array)
-```
-
-* If a `string` is supplied only one asset bundle will be removed.
-* The array must be composed of elements with type `string` that will be matched with asset bundle names, and removed.

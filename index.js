@@ -1,4 +1,4 @@
-const validateOptions = require('schema-utils');
+const { validate } = require('schema-utils');
 
 const schema = {
   type: 'array',
@@ -12,7 +12,7 @@ class NoEmitPlugin {
     } else if (this.isString(options)) {
       options = [ options ];
     } else {
-      validateOptions(schema, options, 'No Emit Plugin');
+      validate(schema, options, 'No Emit Plugin');
     }
 
     this.options = options;

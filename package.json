@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/xipasduarte/no-emit-webpack-plugin#readme",
   "dependencies": {
-    "schema-utils": "^0.4.3"
+    "schema-utils": "^3.0.0"
   },
   "engines": {
     "node": ">= 6.0"

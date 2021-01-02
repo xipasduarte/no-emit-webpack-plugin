@@ -4,12 +4,9 @@
   "description": "Stop an asset from being emitted by the webpack compiler.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xipasduarte/no-emit-webpack-plugin.git"
-  },
+  "repository": "git+https://github.com/xipasduarte/no-emit-webpack-plugin.git",
   "keywords": [
     "webpack",
     "plugin"
@@ -30,7 +27,10 @@
     "webpack": "^4.0.0"
   },
   "devDependencies": {
+    "ava": "^3.15.0",
+    "del": "^6.0.0",
     "eslint": "^7.17.0",
     "webpack": "^4.8.3"
-  }
+  },
+  "private": false
 }

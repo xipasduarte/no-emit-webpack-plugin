@@ -45,7 +45,7 @@ class NoEmitPlugin {
           if (this.isString(asset)) {
             delete compilation.assets[asset];
           } else {
-            console.log('All bundle names in the options must be strings. "' + asset + '" is not a string.');
+            console.log('All bundle names in the options must be strings. %s is not a string.', asset);
           }
         });
       }

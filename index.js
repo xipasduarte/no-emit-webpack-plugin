@@ -1,19 +1,27 @@
 const { validate } = require('schema-utils');
 
 const schema = {
-  type: 'array',
+  type: 'object',
+  properties: {
+    options: {
+      type: 'array',
+    },
+  },
   additionalProperties: false
 };
 
 class NoEmitPlugin {
   constructor(options) {
     if (options === undefined) {
-      options = false;
-    } else if (this.isString(options)) {
-      options = [ options ];
-    } else {
-      validate(schema, options, 'No Emit Plugin');
+      this.options = false;
+      return;
     }
+
+    if (this.isString(options)) {
+      options = [options];
+    }
+
+    validate(schema, { options }, { name: 'No Emit Plugin' });
 
     this.options = options;
   }

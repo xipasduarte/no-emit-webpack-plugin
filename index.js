@@ -10,13 +10,6 @@ const schema = {
   additionalProperties: false
 };
 
-const gatherAllAssets = (entrypoints) => {
-  const keys = entrypoints instanceof Map ?
-    Array.from(entrypoints.keys()) :
-    Object.keys(entrypoints);
-  return keys.map((asset) => `${asset}.js`);
-};
-
 class NoEmitPlugin {
   constructor(options) {
     if (options === undefined) {
@@ -30,6 +23,8 @@ class NoEmitPlugin {
 
     validate(schema, { options }, { name: 'No Emit Plugin' });
 
+    // TODO: Validate that all options are strings.
+
     this.options = options;
   }
 
@@ -38,28 +33,20 @@ class NoEmitPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tapAsync('NoEmitPlugin', (compilation, callback) => {
-
-      // Remove all assets when none are specified.
-      if (this.options === false) {
-        this.options = gatherAllAssets(compilation.entrypoints);
-      }
-
-      this.options.forEach((asset) => {
-        if (!this.isString(asset)) {
-          compilation.errors.push(Error(`All bundle names in the options must be strings. ${JSON.stringify(asset)} is not a string.`));
-          return;
+    compiler.hooks.compilation.tap('NoEmitPlugin', (compilation) => {
+      compilation.hooks.processAssets.tap({
+        name: 'NoEmitPlugin',
+        stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
+        additionalAssets: true,
+      }, (assets) => {
+        // Put all assets in removal list.
+        if (this.options === false) {
+          this.options = Object.keys(assets);
         }
 
-        if (compilation.assets[asset] === undefined) {
-          compilation.warnings.push(`Output asset does not exist: ${asset}`);
-          return;
-        }
-
-        delete compilation.assets[asset];
+        // Remove selected assets.
+        this.options.forEach((file) => compilation.deleteAsset(file));
       });
-
-      callback();
     });
   }
 }

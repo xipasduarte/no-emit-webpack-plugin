@@ -1,5 +1,7 @@
 # No Emit WebPack Plugin
 
+[![Build Status](https://travis-ci.org/xipasduarte/no-emit-webpack-plugin.svg?branch=master)](https://travis-ci.org/xipasduarte/no-emit-webpack-plugin)
+
 Stop an asset from being emitted by the webpack compiler.
 
 ## Install

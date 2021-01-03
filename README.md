@@ -6,8 +6,24 @@ Stop an asset from being emitted by the webpack compiler.
 
 ## Install
 
+**Webpack 5**
+
 ```bash
 npm install --save-dev no-emit-webpack-plugin
+```
+
+```bash
+yarn add -D no-emit-webpack-plugin
+```
+
+**Webpack 4**
+
+```bash
+npm install --save-dev no-emit-webpack-plugin@3.0.0
+```
+
+```bash
+yarn add -D no-emit-webpack-plugin@3.0.0
 ```
 
 ## Options
@@ -54,3 +70,7 @@ module.exports = {
   ]
 }
 ```
+
+## License
+
+MIT © [Pedro Duarte](https://github.com/xipasduarte)

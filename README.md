@@ -41,33 +41,27 @@ new NoEmitPlugin(options: string | array)
 
 This plugin is most useful when you are bundling assets that start from file types other than JavaScript, like styles for instance. With it you can remove the resulting file defined in the `output` option of your `webpack.config.js`.
 
-Below is an example on how to remove the `style.js` file from the emitted assets. We'll use the [Extract Text Plugin](https://webpack.js.org/plugins/extract-text-webpack-plugin/) to generate the CSS asset.
+Below is an example on how to remove the `style.js` file from the emitted assets. We'll use the [Mini CSS Extract Plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) to generate the CSS asset.
 
 ```js
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const NoEmitPlugin = require("no-emit-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const NoEmitPlugin = require('no-emit-webpack-plugin');
 
 module.exports = {
-  entry: "./src/style.scss",
-  output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "./")
+  entry: {
+    style: path.resolve(__dirname, 'style.css'),
+    main: path.resolve(__dirname, 'main.js'),
   },
   module: {
-    rules: [
-      {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
-      }
-    ]
+    rules: [{
+      test: /\.css/iu,
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+      ],
+    }],
   },
-  plugins: [
-    new ExtractTextPlugin("styles.css"),
-    new NoEmitPlugin()
-  ]
+  plugins: [new MiniCssExtractPlugin()],
 }
 ```
 

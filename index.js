@@ -23,8 +23,6 @@ class NoEmitPlugin {
 
     validate(schema, { options }, { name: 'No Emit Plugin' });
 
-    // TODO: Validate that all options are strings.
-
     this.options = options;
   }
 
@@ -45,7 +43,19 @@ class NoEmitPlugin {
         }
 
         // Remove selected assets.
-        this.options.forEach((file) => compilation.deleteAsset(file));
+        this.options.forEach((file) => {
+          if (!this.isString(file)) {
+            compilation.errors.push(Error(`All bundle names in the options must be strings. ${JSON.stringify(file)} is not a string.`));
+            return;
+          }
+
+          if (compilation.getAsset(file) === undefined) {
+            compilation.warnings.push(`Output asset does not exist: ${file}`);
+            return;
+          }
+
+          compilation.deleteAsset(file);
+        });
       });
     });
   }

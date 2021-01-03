@@ -1,0 +1,7 @@
+.style {
+  color: red;
+}
+
+.style:hover {
+  color: blue;
+}

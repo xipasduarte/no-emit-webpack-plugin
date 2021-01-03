@@ -2,19 +2,8 @@ const del = require('del');
 const path = require('path');
 const test = require('ava');
 const webpack = require('webpack');
+const baseConfig = require('./fixtures/webpack.config');
 const NoEmitPlugin = require('../index');
-
-const baseConfig = {
-  mode: 'production',
-  entry: {
-    main: path.resolve(__dirname, 'fixtures/main.js'),
-    other: path.resolve(__dirname, 'fixtures/other.js'),
-  },
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: '[name].js',
-  }
-};
 
 const cleanup = async (t) => {
   try {
@@ -27,11 +16,23 @@ const cleanup = async (t) => {
 test.beforeEach(cleanup);
 test.afterEach(cleanup);
 
+test('fail when initializing with non string|array options', (t) => {
+  try {
+    new NoEmitPlugin({});
+    t.fail();
+  } catch {
+    t.pass();
+  }
+});
+
 test.cb('remove all outputs', (t) => {
-  const config = Object.assign(
-    baseConfig,
-    { plugins: [new NoEmitPlugin()] }
-  );
+  const config = {
+    ...baseConfig,
+    plugins: [
+      ...baseConfig.plugins,
+      new NoEmitPlugin(),
+    ],
+  };
 
   webpack(config, (err, stats) => {
     if (err) {
@@ -46,30 +47,36 @@ test.cb('remove all outputs', (t) => {
 });
 
 test.cb('remove an output file using string option', (t) => {
-  const config = Object.assign(
-    baseConfig,
-    { plugins: [new NoEmitPlugin('other.js')] }
-  );
+  const config = {
+    ...baseConfig,
+    plugins: [
+      ...baseConfig.plugins,
+      new NoEmitPlugin('style.js'),
+    ],
+  };
 
   webpack(config, (err, stats) => {
     if (err) {
       t.end(err);
-      return;
     }
 
     const files = stats.toJson().assets.map((file) => file.name);
-    t.true(files.length === 1);
+    t.true(files.length === 2);
     t.true(files.indexOf('main.js') !== -1);
-    t.true(files.indexOf('other.js') === -1);
+    t.true(files.indexOf('style.js') === -1);
+    t.true(files.indexOf('style.css') !== -1);
     t.end();
   });
 });
 
 test.cb('remove an output file using array option', (t) => {
-  const config = Object.assign(
-    baseConfig,
-    { plugins: [new NoEmitPlugin(['other.js'])] }
-  );
+  const config = {
+    ...baseConfig,
+    plugins: [
+      ...baseConfig.plugins,
+      new NoEmitPlugin(['style.js']),
+    ],
+  };
 
   webpack(config, (err, stats) => {
     if (err) {
@@ -78,18 +85,22 @@ test.cb('remove an output file using array option', (t) => {
     }
 
     const files = stats.toJson().assets.map((file) => file.name);
-    t.true(files.length === 1);
+    t.true(files.length === 2);
     t.true(files.indexOf('main.js') !== -1);
-    t.true(files.indexOf('other.js') === -1);
+    t.true(files.indexOf('style.js') === -1);
+    t.true(files.indexOf('style.css') !== -1);
     t.end();
   });
 });
 
 test.cb('add compile error when type option is different than string', (t) => {
-  const config = Object.assign(
-    baseConfig,
-    { plugins: [new NoEmitPlugin([{}])] }
-  );
+  const config = {
+    ...baseConfig,
+    plugins: [
+      ...baseConfig.plugins,
+      new NoEmitPlugin([{}]),
+    ],
+  };
 
   webpack(config, (err, stats) => {
     if (err) {
@@ -98,16 +109,18 @@ test.cb('add compile error when type option is different than string', (t) => {
     }
 
     t.true(stats.hasErrors());
-    t.true(stats.toJson().errors.length === 1);
     t.end();
   });
 });
 
 test.cb('add compile warning when file name is not in compilation.assets', (t) => {
-  const config = Object.assign(
-    baseConfig,
-    { plugins: [new NoEmitPlugin('not-found.js')] }
-  );
+  const config = {
+    ...baseConfig,
+    plugins: [
+      ...baseConfig.plugins,
+      new NoEmitPlugin('not-found.js'),
+    ],
+  };
 
   webpack(config, (err, stats) => {
     if (err) {
@@ -118,13 +131,4 @@ test.cb('add compile warning when file name is not in compilation.assets', (t) =
     t.true(stats.toJson().warnings.length === 1);
     t.end();
   });
-});
-
-test('fail when initializing with non string|array options', (t) => {
-  try {
-    new NoEmitPlugin({});
-    t.fail();
-  } catch {
-    t.pass();
-  }
 });

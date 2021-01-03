@@ -1,6 +1,6 @@
 {
   "name": "no-emit-webpack-plugin",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Stop an asset from being emitted by the webpack compiler.",
   "main": "index.js",
   "scripts": {

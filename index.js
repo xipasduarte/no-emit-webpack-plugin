@@ -11,12 +11,7 @@ const schema = {
 };
 
 class NoEmitPlugin {
-  constructor(options) {
-    if (options === undefined) {
-      this.options = false;
-      return;
-    }
-
+  constructor(options = []) {
     if (this.isString(options)) {
       options = [options];
     }
@@ -38,8 +33,8 @@ class NoEmitPlugin {
         additionalAssets: true,
       }, (assets) => {
         // Put all assets in removal list.
-        if (this.options === false) {
-          this.options = Object.keys(assets);
+        if (this.options.length === 0) {
+          this.options = Object.keys(assets).filter((key) => key !== '*');
         }
 
         // Remove selected assets.

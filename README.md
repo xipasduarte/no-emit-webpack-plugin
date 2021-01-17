@@ -44,7 +44,7 @@ This plugin is most useful when you are bundling assets that start from file typ
 Below is an example on how to remove the `style.js` file from the emitted assets. We'll use the [Mini CSS Extract Plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) to generate the CSS asset.
 
 ```js
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
 
 module.exports = {
@@ -61,7 +61,10 @@ module.exports = {
       ],
     }],
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin(),
+    new NoEmitPlugin(),
+  ],
 }
 ```
 

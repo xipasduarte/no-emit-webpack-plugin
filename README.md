@@ -63,7 +63,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new NoEmitPlugin(),
+    new NoEmitPlugin('style.js'),
   ],
 }
 ```
